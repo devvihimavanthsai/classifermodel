@@ -1,0 +1,15 @@
+<!-- templates/details.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Rice Image</title>
+</head>
+<body>
+    <h2>Upload Rice Image for Prediction</h2>
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+

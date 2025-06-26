@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrainPalette - Rice Classifier</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            padding: 15px 30px;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 100%;
+            background-image: url('{{ url_for('static', filename='bg image.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding-top: 80px; /* avoids being under navbar */
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: transparent;
+            color: red;
+            border: 2px solid red;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: red;
+            color: black;
+        }
+
+        /* Upload Section */
+        section {
+            padding: 60px 20px;
+        }
+
+        #upload {
+            scroll-margin-top: 100px; /* solves anchor jump overlap */
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        img {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>GrainPalette</h1>
+        <div>
+            <a href="#">Home</a>
+            <a href="#upload">Upload</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Welcome to GrainPalette</h1>
+            <p>AI-powered Rice Type Detection & Guidance</p>
+            <a href="#upload"><button class="btn">Predict</button></a>
+        </div>
+    </div>
+
+    <!-- Upload Section -->
+    <section id="upload">
+        <div class="container">
+            <h2>Upload Rice Image</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*" required><br><br>
+                <button class="btn" type="submit">Predict Rice Type</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Result Section -->
+    {% if prediction %}
+    <section id="result">
+        <div class="container">
+            <h2>Prediction Result</h2>
+            <h3>Predicted Rice Type: {{ prediction }}</h3>
+            <img src="{{ image_url }}" alt="Uploaded Image" width="250"><br><br>
+            <p><strong> Water Requirement:</strong> {{ water }}</p>
+            <p><strong> Fertilizer Recommendation:</strong> {{ fertilizer }}</p>
+            <a href="#upload"><button class="btn">Try Another</button></a>
+        </div>
+    </section>
+    {% endif %}
+
+</body>
+</html>
